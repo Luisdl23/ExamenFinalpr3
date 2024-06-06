@@ -2,10 +2,10 @@
 
 namespace ExamenFinalpr3
 {
-    public class Tablet:Dispositivos
+    public class Tablet : Dispositivos
     {
-        int Tamaniopantalla { get; set; }
-        string SoporteparaStylus { get; set; }
+        public int Tamaniopantalla { get; set; }
+        public string SoporteparaStylus { get; set; }
 
         public Tablet()
         {
