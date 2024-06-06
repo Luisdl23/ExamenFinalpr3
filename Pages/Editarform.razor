@@ -1,0 +1,69 @@
+﻿@page "/Tablet-editar/{SoporteparaStylus}"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+<h3>Editarform</h3>
+
+<EditForm Model="@tablet" OnValidSubmit="@Guardar">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="numerodeserie">Numero de serie</label>
+        <InputNumber id="numerodeserie" @bind-Value="tablet.numerodeserie" class="form-control" />
+        <ValidationMessage For="() => tablet.numerodeserie" />
+    </div>
+    <div class="form-group">
+        <label for="marca">Marca</label>
+        <InputText id="marca" @bind-Value="tablet.marca" class="form-control" />
+        <ValidationMessage For="() => tablet.marca" />
+    </div>
+    <div class="form-group">
+        <label for="modelo">Modelo </label>
+        <InputText id="modelo" @bind-Value="tablet.modelo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Tamaniopantalla">Tamanio de la pantalla</label>
+        <InputNumber id="Tamaniopantalla" @bind-Value="tablet.Tamaniopantalla" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="SoporteparaStylus">Soporte para Stylus</label>
+        <InputText id="SoporteparaStylus" @bind-Value="tablet.SoporteparaStylus" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public string SoporteparaStylus { get; set; }
+
+    private Tablet tablet = new Tablet();
+    List<Tablet> tablet1 = new List<Tablet>();
+
+
+    protected async Task Guardar()
+    {
+        tablet1.Add(tablet);
+        tablet = new Tablet();
+
+        await localStorage.SetItemAsync("tablet1", tablet1);
+
+
+        NavigationManager.NavigateTo("/Ingresotablet");
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        tablet1 = await localStorage.GetItemAsync<List<Tablet>>("tablet1");
+
+        tablet = tablet1.Find(c => c.SoporteparaStylus == SoporteparaStylus);
+
+    }
+
+}

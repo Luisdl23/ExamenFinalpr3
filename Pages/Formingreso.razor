@@ -32,9 +32,12 @@
         <label for="SoporteparaStylus">Soporte para Stylus</label>
         <InputText id="SoporteparaStylus" @bind-Value="tablet.SoporteparaStylus" class="form-control" />
     </div>
+    <p role="status">Datos ingresados: @contador</p>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
+   
+
 </EditForm>
 
 @if (tablet1 != null)
@@ -75,19 +78,28 @@
 }
 
 
+
 @code 
 {
+
+
     private Tablet tablet = new Tablet();
     List<Tablet> tablet1 = new List<Tablet>();
+    private int contador = 0;
+   
 
     protected async Task Guardar()
     {
-        tablet1.Add(tablet);
 
+        tablet1.Add(tablet);
+        tablet = new Tablet();
         await localStorage.SetItemAsync("tablet1", tablet1);
+        contador = tablet1.Count;
 
 
     }
+
+
 
     protected async Task Borrar(string SoporteparaStylus)
     {
@@ -99,6 +111,8 @@
     protected override async Task OnInitializedAsync()
     {   //La primera vez que se corre poner en comentarios, pues como no existen datos
         //tablet1 = await localStorage.GetItemAsync<List<Tablet>>("tablet");
+
+        contador = tablet1.Count;
     }
 
 }
